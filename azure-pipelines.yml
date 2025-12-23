@@ -30,7 +30,6 @@ steps:
      inputs:
        artifactoryService: 'hts2'
        cliInstallationRepo: 'jfrog-cli-v2-jfrog'
-       cliVersion: '2.86.0'
  
    - task: ArtifactoryDocker@1
      displayName: 'Pull Image'
