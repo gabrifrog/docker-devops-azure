@@ -4,7 +4,7 @@ pool:
  vmImage: ubuntu-latest
 parameters:
 - name: prodName
-  displayName: Product
+  displayName: Product-first
   type: string
   default: 'nginx'
 - name: registry
