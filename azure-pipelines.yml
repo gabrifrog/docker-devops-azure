@@ -29,7 +29,7 @@ steps:
      displayName: 'Install Build deps'
      inputs:
        artifactoryService: 'hts2'
-       cliInstallationRepo: 'cli'
+       cliInstallationRepo: 'jfrog-cli-v2'
        cliVersion: '2.86'
  
    - task: ArtifactoryDocker@1
