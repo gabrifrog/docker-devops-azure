@@ -10,7 +10,7 @@ parameters:
 - name: registry
   displayName: Registry Hostname
   type: string
-  default: hts2.jfrog.io'
+  default: 'hts2.jfrog.io'
 - name: targetRepo
   displayName: Target Repo to push to
   type: string
