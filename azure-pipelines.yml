@@ -23,6 +23,9 @@ variables:
  imageNameTb: '$(registry)/$(targetRepo)/test-$(prodName)'
  imageNameBase: '$(registry)/$(targetRepo)/$(prodName)'
  
+workspace:
+  clean: all
+
 steps:
   - task: ArtifactoryToolsInstaller@1
     displayName: 'Install Build deps'
