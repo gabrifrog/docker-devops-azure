@@ -27,11 +27,11 @@ workspace:
   clean: all
 
 steps:
-  - task: ArtifactoryToolsInstaller@1
-    displayName: 'Install Build deps'
-    inputs:
-      artifactoryService: 'elinaf'
-      cliInstallationRepo: 'jfrog-cli' 
+#  - task: ArtifactoryToolsInstaller@1
+#    displayName: 'Install Build deps'
+#    inputs:
+#      artifactoryService: 'elinaf'
+#      cliInstallationRepo: 'jfrog-cli' 
   - task: JfrogCliV2@1
     name: jfrogCLI
     inputs:
