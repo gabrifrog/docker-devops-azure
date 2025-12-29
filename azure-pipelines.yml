@@ -1,7 +1,6 @@
 trigger:
 - master
-pool:
- vmImage: ubuntu-latest
+pool: Default
 parameters:
 - name: prodName
   displayName: Product to Build
@@ -25,29 +24,29 @@ variables:
  imageNameBase: '$(registry)/$(targetRepo)/$(prodName)'
  
 steps:
-   - task: ArtifactoryToolsInstaller@1
-     displayName: 'Install Build deps'
-     inputs:
-       artifactoryService: 'elinaf'
-       cliInstallationRepo: 'edenb-cloud-artifactoryv1'
-   - task: JfrogCliV2@1
-     name: jfrogCLI
-     inputs:
-       jfrogPlatformConnection: 'hts2' # Artifacotry platform connection
-       command: 'jf rt ping'
+  - task: ArtifactoryToolsInstaller@1
+    displayName: 'Install Build deps'
+    inputs:
+      artifactoryService: 'elinaf'
+      cliInstallationRepo: 'jfrog-cli' 
+  - task: JfrogCliV2@1
+    name: jfrogCLI
+    inputs:
+      jfrogPlatformConnection: 'elinaf-platform' # Artifacotry platform connection
+      command: 'jf rt ping'
  
-   - task: ArtifactoryDocker@1
-     displayName: 'Pull Image'
-     inputs:
+  - task: ArtifactoryDocker@1
+    displayName: 'Pull Image'
+    inputs:
        command: 'pull'
        artifactoryService: 'elinaf'
-       sourceRepo: 'gavri-docker'
+       sourceRepo: 'gabrin-docker'
        imageName: '$(imageNameBase)'
  
-   - task: Docker@2
-     displayName: 'Build Image'
-     inputs:
-       containerRegistry: 'hts2-docker'
+  - task: Docker@2
+    displayName: 'Build Image'
+    inputs:
+       containerRegistry: 'elinaf-docker'
        repository: '$(targetRepo)/$(buildContext)'
        command: 'build'
        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
@@ -55,28 +54,28 @@ steps:
        tags: |
          $(Build.BuildNumber)
   
-   - task: ArtifactoryDocker@1
-     displayName: 'Push Image'
-     inputs:
+  - task: ArtifactoryDocker@1
+    displayName: 'Push Image'
+    inputs:
        command: 'push'
-       artifactoryService: 'hts2'
-       targetRepo: 'gavri-docker'
+       artifactoryService: 'elinaf'
+       targetRepo: 'gabrin-docker'
        imageName: '$(imageNameTb):$(Build.BuildNumber)'
        collectBuildInfo: true
        buildName: '$(Build.DefinitionName)'
        buildNumber: '$(Build.BuildNumber)'
        includeEnvVars: true
  
-   - task: ArtifactoryPublishBuildInfo@1
-     displayName: 'Publish Build Info'
-     inputs:
+  - task: ArtifactoryPublishBuildInfo@1
+    displayName: 'Publish Build Info'
+    inputs:
        artifactoryService: 'elinaf'
        buildName: '$(Build.DefinitionName)'
        buildNumber: '$(Build.BuildNumber)'
   
-   - task: ArtifactoryXrayScan@1
-     displayName: 'Xray Scan'
-     inputs:
+  - task: ArtifactoryXrayScan@1
+    displayName: 'Xray Scan'
+    inputs:
        artifactoryService: 'elinaf'
        buildName: '$(Build.DefinitionName)'
        buildNumber: '$(Build.BuildNumber)'
